@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using PhanHeHTQT.API;
 using PhanHeHTQT.Models;
 using PhanHeHTQT.Models.DM;
@@ -230,20 +232,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             
         }
 
-        public IActionResult Excel(string json)
-        {
-            try
-            {
-                List<List<string>> data = JsonConvert.DeserializeObject<List<List<string>>>(json);
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-                return Accepted(Json(new { msg = JsonConvert.SerializeObject(data) }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(Json(new { msg = "Đã có lỗi xảy ra" }));
-            }
-
-        }
+        //Import Excel
 
         private async Task<bool> TbDeAnDuAnChuongTrinhExists(int id)
         {

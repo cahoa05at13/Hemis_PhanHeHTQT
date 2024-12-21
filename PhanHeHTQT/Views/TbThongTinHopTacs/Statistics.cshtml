@@ -130,15 +130,22 @@
                 }]
             },
             options: {
-                responsive: true,
-
                 title: {
                     display: true,
                     text: 'CƠ CẤU HÌNH THỨC HỢP TÁC',
                     fontSize: 25
                 },
-                legend: {
-                    position: 'top',
+                maintainAspectRatio: false,// Để thu phóng tự do
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Biểu đồ phân loại theo ca'
+                    }
+
                 }
             }
         });
@@ -228,4 +235,3 @@
 
     </script>
 </body>
-
