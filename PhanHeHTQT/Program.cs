@@ -21,6 +21,7 @@ builder.Services.AddControllersWithViews().AddMvcOptions(options => {
     options.ModelBindingMessageProvider.SetValueMustBeANumberAccessor((a) => "Field is required 10");
     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor((a) => "Field is required 11");
 });
+
 builder.Services.AddHttpClient<PhanHeHTQT.API.ApiServices>();
 var app = builder.Build();
 

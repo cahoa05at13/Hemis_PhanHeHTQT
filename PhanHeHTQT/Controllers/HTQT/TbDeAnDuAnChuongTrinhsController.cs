@@ -23,6 +23,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             ApiServices_ = services;
         }
 
+
         private async Task<List<TbDeAnDuAnChuongTrinh>> TbDeAnDuAnChuongTrinhs()
         {
             List<TbDeAnDuAnChuongTrinh> tbDeAnDuAnChuongTrinhs = await ApiServices_.GetAll<TbDeAnDuAnChuongTrinh>("/api/htqt/DeAnDuAnChuongTrinh");
@@ -76,16 +77,16 @@ namespace PhanHeHTQT.Controllers.HTQT
                 }
 
                 // Tìm các dữ liệu theo Id tương ứng đã truyền vào view Details
-                var TbDeAnDuAnChuongTrinhs = await ApiServices_.GetAll<TbDeAnDuAnChuongTrinh>("/api/htqt/DeAnDuAnChuongTrinh");
-                var TbDeAnDuAnChuongTrinh = TbDeAnDuAnChuongTrinhs.FirstOrDefault(m => m.IdDeAnDuAnChuongTrinh == id);
+                var tbDeAnDuAnChuongTrinhs = await TbDeAnDuAnChuongTrinhs();
+                var tbDeAnDuAnChuongTrinh = tbDeAnDuAnChuongTrinhs.FirstOrDefault(m => m.IdDeAnDuAnChuongTrinh == id);
                 // Nếu không tìm thấy Id tương ứng, chương trình sẽ báo lỗi NotFound
-                if (TbDeAnDuAnChuongTrinh == null)
+                if (tbDeAnDuAnChuongTrinh == null)
                 {
                     return NotFound();
                 }
                 // Nếu đã tìm thấy Id tương ứng, chương trình sẽ dẫn đến view Details
                 // Hiển thị thông thi chi tiết CTĐT thành công
-                return View(TbDeAnDuAnChuongTrinh);
+                return View(tbDeAnDuAnChuongTrinh);
             }
             catch (Exception ex)
             {
