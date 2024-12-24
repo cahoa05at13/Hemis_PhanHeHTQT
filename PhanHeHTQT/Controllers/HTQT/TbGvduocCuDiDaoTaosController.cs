@@ -198,7 +198,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 return NotFound();
             }
 
-            var tbGvduocCuDiDaoTaos = await ApiServices_.GetAll<TbGvduocCuDiDaoTao>("/api/htqt/GvduocCuDiDaoTao");
+            var tbGvduocCuDiDaoTaos = await TbGvduocCuDiDaoTaos();
             var tbGvduocCuDiDaoTao = tbGvduocCuDiDaoTaos.FirstOrDefault(m => m.IdGvduocCuDiDaoTao == id);
             if (tbGvduocCuDiDaoTao == null)
             {

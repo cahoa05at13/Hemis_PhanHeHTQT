@@ -146,7 +146,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 return NotFound();
             }
 
-            var tbThongTinHopTacs = await ApiServices_.GetAll<TbThongTinHopTac>("/api/htqt/ThongTinHopTac");
+            var tbThongTinHopTacs = await TbThongTinHopTacs();
             var tbThongTinHopTac = tbThongTinHopTacs.FirstOrDefault(m => m.IdThongTinHopTac == id);
             if (tbThongTinHopTac == null)
             {

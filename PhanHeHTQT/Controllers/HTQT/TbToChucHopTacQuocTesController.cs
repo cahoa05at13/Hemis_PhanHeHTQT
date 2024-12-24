@@ -168,7 +168,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 return NotFound();
             }
-            var tbToChucHopTacQuocTes = await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe");
+            var tbToChucHopTacQuocTes = await TbToChucHopTacQuocTes();
             var tbToChucHopTacQuocTe = tbToChucHopTacQuocTes.FirstOrDefault(m => m.IdToChucHopTacQuocTe == id);
             if (tbToChucHopTacQuocTe == null)
             {

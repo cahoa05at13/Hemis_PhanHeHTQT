@@ -203,7 +203,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                     return NotFound();
                 }
 
-                var tbDeAnDuAnChuongTrinhs = await ApiServices_.GetAll<TbDeAnDuAnChuongTrinh>("/api/htqt/DeAnDuAnChuongTrinh");
+                var tbDeAnDuAnChuongTrinhs = await TbDeAnDuAnChuongTrinhs();
                 var tbDeAnDuAnChuongTrinh = tbDeAnDuAnChuongTrinhs.FirstOrDefault(m => m.IdDeAnDuAnChuongTrinh == id);
                 if (tbDeAnDuAnChuongTrinh == null)
                 {

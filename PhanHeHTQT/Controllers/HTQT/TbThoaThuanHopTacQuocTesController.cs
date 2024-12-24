@@ -145,7 +145,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 return NotFound();
             }
 
-            var tbThoaThuanHopTacQuocTes = await ApiServices_.GetAll<TbThoaThuanHopTacQuocTe>("/api/htqt/ThoaThuanHopTacQuocTe");
+            var tbThoaThuanHopTacQuocTes = await TbThoaThuanHopTacQuocTes();
             var tbThoaThuanHopTacQuocTe = tbThoaThuanHopTacQuocTes.FirstOrDefault(m => m.IdThoaThuanHopTacQuocTe == id);
             if (tbThoaThuanHopTacQuocTe == null)
             {

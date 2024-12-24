@@ -206,7 +206,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 {
                     return NotFound();
                 }
-                var tbDoanCongTacs = await ApiServices_.GetAll<TbDoanCongTac>("/api/htqt/DoanCongTac");
+                var tbDoanCongTacs = await TbDoanCongTacs();
                 var tbDoanCongTac = tbDoanCongTacs.FirstOrDefault(m => m.IdDoanCongTac == id);
                 if (tbDoanCongTac == null)
                 {

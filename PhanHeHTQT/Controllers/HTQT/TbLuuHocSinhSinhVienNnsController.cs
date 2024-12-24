@@ -150,7 +150,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 return NotFound();
             }
 
-            var tbLuuHocSinhSinhVienNns = await ApiServices_.GetAll<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNn");
+            var tbLuuHocSinhSinhVienNns = await TbLuuHocSinhSinhVienNns();
             var tbLuuHocSinhSinhVienNn = tbLuuHocSinhSinhVienNns.FirstOrDefault(m => m.IdLuuHocSinhSinhVienNn == id);
             if (tbLuuHocSinhSinhVienNn == null)
             {
