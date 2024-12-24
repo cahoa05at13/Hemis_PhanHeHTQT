@@ -98,7 +98,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 return NotFound();
             }
             ViewData["IdHinhThucHopTac"] = new SelectList(await ApiServices_.GetAll<DmHinhThucHopTac>("/api/dm/HinhThucHopTac"), "IdHinhThucHopTac", "HinhThucHopTac", tbThongTinHopTac.IdHinhThucHopTac);
-            ViewData["IdToChucHopTac"] = new SelectList(await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe"), "IdToChucHopTacQuocTe", "ToChucHopTacQuocTe", tbThongTinHopTac.IdToChucHopTac);
+            ViewData["IdToChucHopTac"] = new SelectList(await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe"), "IdToChucHopTacQuocTe", "TenToChuc", tbThongTinHopTac.IdToChucHopTac);
             return View(tbThongTinHopTac);
         }
 
@@ -134,7 +134,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdHinhThucHopTac"] = new SelectList(await ApiServices_.GetAll<DmHinhThucHopTac>("/api/dm/HinhThucHopTac"), "IdHinhThucHopTac", "HinhThucHopTac", tbThongTinHopTac.IdHinhThucHopTac);
-            ViewData["IdToChucHopTac"] = new SelectList(await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe"), "IdToChucHopTacQuocTe", "ToChucHopTacQuocTe", tbThongTinHopTac.IdToChucHopTac);
+            ViewData["IdToChucHopTac"] = new SelectList(await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe"), "IdToChucHopTacQuocTe", "TenToChuc", tbThongTinHopTac.IdToChucHopTac);
             return View(tbThongTinHopTac);
         }
 
