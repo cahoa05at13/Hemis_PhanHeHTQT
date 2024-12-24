@@ -11,6 +11,8 @@ using OfficeOpenXml;
 using PhanHeHTQT.API;
 using PhanHeHTQT.Models;
 using PhanHeHTQT.Models.DM;
+using System.Globalization;
+
 
 namespace PhanHeHTQT.Controllers.HTQT
 {
@@ -239,6 +241,89 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             var tbDeAnDuAnChuongTrinh = await ApiServices_.GetAll<TbDeAnDuAnChuongTrinh>("/api/htqt/DeAnDuAnChuongTrinh");
             return tbDeAnDuAnChuongTrinh.Any(e => e.IdDeAnDuAnChuongTrinh == id);
+        }
+        public async Task<IActionResult> Receive(string json)
+        {
+            try
+            {
+                // Khai báo thông báo mặc định
+                var message = "Không phát hiện lỗi";
+                List<DmNguonKinhPhi> dmNguonKinhPhis = await ApiServices_.GetAll<DmNguonKinhPhi>("/api/dm/NguonKinhPhiChoDeAn");
+                // Giải mã dữ liệu JSON từ client
+                List<List<string>> data = JsonConvert.DeserializeObject<List<List<string>>>(json);
+
+                // Danh sách lưu các đối tượng TbDeAnDuAnChuongTrinh
+                List<TbDeAnDuAnChuongTrinh> lst = new List<TbDeAnDuAnChuongTrinh>();
+
+                // Khởi tạo Random để tạo ID ngẫu nhiên
+                Random rnd = new Random();
+
+                // Duyệt qua từng dòng dữ liệu từ Excel
+                foreach (var item in data)
+                {
+                    TbDeAnDuAnChuongTrinh model = new TbDeAnDuAnChuongTrinh();
+
+                    // Tạo id ngẫu nhiên và kiểm tra xem id đã tồn tại chưa
+                    int id;
+                    do
+                    {
+                        id = rnd.Next(1, 100000); // Tạo id ngẫu nhiên
+                    } while (await TbDeAnDuAnChuongTrinhExists(id)); // Kiểm tra id có tồn tại không
+
+                    // Gán dữ liệu cho các thuộc tính của model
+                    model.IdDeAnDuAnChuongTrinh = id; // Gán ID
+                    model.MaDeAnDuAnChuongTrinh = item[0];
+                    model.TenDeAnDuAnChuongTrinh = item[1];
+                    model.NoiDungTomTat = item[2]; 
+                    model.MucTieu = item[3];
+                    model.ThoiGianHopTacTu = DateOnly.ParseExact(item[4], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    model.ThoiGianHopTacDen = DateOnly.ParseExact(item[5], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    model.TongKinhPhi = double.Parse(item[6], CultureInfo.InvariantCulture);
+                    var model_NguonKinhPhi = dmNguonKinhPhis.FirstOrDefault(t => t.NguonKinhPhi == item[7]);
+                    if (model_NguonKinhPhi != null)
+                    {
+                        model.IdNguonKinhPhiDeAnDuAnChuongTrinh = model_NguonKinhPhi.IdNguonKinhPhi;  // Giả sử bạn có một trường Id trong DmNguonKinhPhi
+                    }
+                    else
+                    {
+                        // Nếu không tìm thấy, bạn có thể xử lý theo cách khác (ví dụ: gán giá trị mặc định, log lỗi, v.v.)
+                        model.IdNguonKinhPhiDeAnDuAnChuongTrinh = null; // hoặc gán một giá trị mặc định
+                    }
+
+                    // Thêm model vào danh sách
+                    lst.Add(model);
+                }
+
+                // Lưu danh sách vào cơ sở dữ liệu (giả sử có một phương thức tạo đối tượng trong DB)
+                foreach (var item in lst)
+                {
+                    await CreateTbDeAnDuAnChuongTrinh(item); // Giả sử có phương thức tạo dữ liệu vào DB
+                }
+
+                return Accepted(Json(new { msg = message }));
+            }
+            catch (Exception ex)
+            {
+                // Nếu có lỗi, trả về thông báo lỗi
+                return BadRequest(Json(new { msg = ex.Message }));
+            }
+        }
+
+        private async Task CreateTbDeAnDuAnChuongTrinh(TbDeAnDuAnChuongTrinh item)
+        {
+            await ApiServices_.Create<TbDeAnDuAnChuongTrinh>("/api/htqt/DeAnDuAnChuongTrinh", item);
+        }
+
+        private int? ParseInt(string v)
+        {
+            if (int.TryParse(v, out int result)) // Nếu chuỗi có thể chuyển thành int
+            {
+                return result; // Trả về giá trị int
+            }
+            else
+            {
+                return null; // Nếu không thể chuyển thành int, trả về null
+            }
         }
     }
 }

@@ -26,7 +26,13 @@
             * {
                 font-family: "Be Vietnam Pro", sans-serif;
             }
-    
+
+        .sidebar-wrapper .sidebar-header {
+            padding: 1rem 1rem 1rem;
+        }
+        .sidebar-wrapper .sidebar-header img {
+                height: 5.0rem;
+            }
         </style>
     </head>
 
@@ -36,10 +42,10 @@
             <div id="sidebar">
                 <div class="sidebar-wrapper active">
                     <div class="sidebar-header position-relative">
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="">
                             <div class="logo">
                             <div class="text-center">
-                                <a href=""><img src="~/Image/Logo/LOGO Học Viện cắt.png" alt="Logo" class="img-fluid" srcset=""></a>
+                                <a href=""><img src="~/Image/Logo/LOGO Học Viện cắt.png" alt="Logo" width="80px" class="img-fluid" srcset=""></a>
                                 <p class="text-muted" style="font-size: 14px;">Hợp tác quốc tế</p>
                             </div>
                             </div>
@@ -71,26 +77,6 @@
                             </path>
                             </svg>
                             </div> *@
-                            <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--system-uicons" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
-                                    <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M10.5 14.5c2.219 0 4-1.763 4-3.982a4.003 4.003 0 0 0-4-4.018c-2.219 0-4 1.781-4 4c0 2.219 1.781 4 4 4zM4.136 4.136L5.55 5.55m9.9 9.9l1.414 1.414M1.5 10.5h2m14 0h2M4.135 16.863L5.55 15.45m9.899-9.9l1.414-1.415M10.5 19.5v-2m0-14v-2" opacity=".3"></path>
-                                        <g transform="translate(-210 -1)">
-                                            <path d="M220.5 2.5v2m6.5.5l-1.5 1.5"></path>
-                                            <circle cx="220.5" cy="11.5" r="4"></circle>
-                                            <path d="m214 5l1.5 1.5m5 14v-2m6.5-.5l-1.5-1.5M214 18l1.5-1.5m-4-5h2m14 0h2"></path>
-                                        </g>
-                                    </g>
-                                </svg>
-                                <div class="form-check form-switch fs-6">
-                                    <input class="form-check-input  me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
-                                    <label class="form-check-label"></label>
-                                </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--mdi" width="20" height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="m17.75 4.09l-2.53 1.94l.91 3.06l-2.63-1.81l-2.63 1.81l.91-3.06l-2.53-1.94L12.44 4l1.06-3l1.06 3l3.19.09m3.5 6.91l-1.64 1.25l.59 1.98l-1.7-1.17l-1.7 1.17l.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95l2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85c-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14c.4-.4.82-.76 1.27-1.08c.75-.53 1.93.36 1.85 1.19c-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82c-2.81 3.14-2.7 7.96.31 10.98c3.02 3.01 7.84 3.12 10.98.31Z">
-                                    </path>
-                                </svg>
-                            </div>
 
                             <div class="sidebar-toggler  x">
                                 <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
@@ -101,9 +87,9 @@
 
                     <div class="sidebar-menu">
                         <ul class="menu">
-
-                          
-                            <li class="sidebar-title">Menu</li>
+                        <li class="sidebar-title"><i class="fa-solid fa-list"></i>
+                            <span>Menu</span>
+                            </li>
 
                             <li class="sidebar-item  " action_name="Dashboard_article">
                                 <a href="/" class='sidebar-link'>
@@ -112,197 +98,222 @@
                                 </a>
                             </li>
 
-                            <li class="sidebar-item  has-sub " action_name="TbDeAnDuAnChuongTrinhs_article">
-                                <a href="/TbDeAnDuAnChuongTrinhs" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Đề án dự án chương trình</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbDeAnDuAnChuongTrinhs_article">
+                        <li class="sidebar-item has-sub" action_name="TbDeAnDuAnChuongTrinhs_article">
+                            <a href="/TbDeAnDuAnChuongTrinhs" class="sidebar-link">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                                <span>Đề án dự án chương trình</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbDeAnDuAnChuongTrinhs_article">
+                                <li class="submenu-item" action_name="PhanAnh_Index">
+                                    <a href="/TbDeAnDuAnChuongTrinhs/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbDeAnDuAnChuongTrinhs_Create">
+                                    <a href="/TbDeAnDuAnChuongTrinhs/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbDeAnDuAnChuongTrinhs_Statistics">
+                                    <a href="/TbDeAnDuAnChuongTrinhs/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                                    <li class="submenu-item " action_name="PhanAnh_Index">
-                                        <a href="/TbDeAnDuAnChuongTrinhs/" class="submenu-link">Index</a>
+                        <li class="sidebar-item has-sub" action_name="TbDoanCongTacs_article">
+                            <a href="/TbDoanCongTacs" class="sidebar-link">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Đoàn công tác</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbDoanCongTacs_article">
+                                <li class="submenu-item" action_name="PhanAnh_Index">
+                                    <a href="/TbDoanCongTacs/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbDoanCongTacs_Create">
+                                    <a href="/TbDoanCongTacs/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbDoanCongTacs_Statistics">
+                                    <a href="/TbDoanCongTacs/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbDeAnDuAnChuongTrinhs_Create">
-                                        <a href="/TbDeAnDuAnChuongTrinhs/Create" class="submenu-link">Create</a>
-                                    </li> 
-                                    <li class="submenu-item  " action_name="TbDeAnDuAnChuongTrinhs_Statistics">
-                                        <a href="/TbDeAnDuAnChuongTrinhs/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="sidebar-item has-sub" action_name="TbGvduocCuDiDaoTaos_article">
+                            <a href="/TbGvduocCuDiDaoTaos" class="sidebar-link">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                <span>GV được cử đi đào tạo</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbGvduocCuDiDaoTaos_article">
+                                <li class="submenu-item" action_name="TbGvduocCuDiDaoTaos_Index">
+                                    <a href="/TbGvduocCuDiDaoTaos/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbGvduocCuDiDaoTaos_Create">
+                                    <a href="/TbGvduocCuDiDaoTaos/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbGvduocCuDiDaoTaos_Statistics">
+                                    <a href="/TbGvduocCuDiDaoTaos/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li class="sidebar-item  has-sub " action_name="TbDoanCongTacs_article">
-                                <a href="/TbDoanCongTacs" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Đoàn công tác</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbDoanCongTacs_article">
+                        <li class="sidebar-item has-sub" action_name="TbHoiThaoHoiNghis_article">
+                            <a href="/TbHoiThaoHoiNghis" class="sidebar-link">
+                                <i class="bi bi-calendar-event"></i>
+                                <span>Hội thảo hội nghị</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbHoiThaoHoiNghis_article">
+                                <li class="submenu-item" action_name="PhanAnh_Index">
+                                    <a href="/TbHoiThaoHoiNghis/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbHoiThaoHoiNghis_Create">
+                                    <a href="/TbHoiThaoHoiNghis/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbHoiThaoHoiNghis_Statistics">
+                                    <a href="/TbHoiThaoHoiNghis/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                                    <li class="submenu-item " action_name="PhanAnh_Index">
-                                        <a href="/TbDoanCongTacs/" class="submenu-link">Index</a>
+                        <li class="sidebar-item has-sub" action_name="TbLuuHocSinhSinhVienNns_article">
+                            <a href="/TbLuuHocSinhSinhVienNns" class="sidebar-link">
+                                <i class="bi bi-person-fill"></i>
+                                <span>Lưu học sinh sinh viên</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbLuuHocSinhSinhVienNns_article">
+                                <li class="submenu-item" action_name="PhanAnh_Index">
+                                    <a href="/TbLuuHocSinhSinhVienNns/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbLuuHocSinhSinhVienNns_Create">
+                                    <a href="/TbLuuHocSinhSinhVienNns/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbLuuHocSinhSinhVienNns_Statistics">
+                                    <a href="/TbLuuHocSinhSinhVienNns/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbDoanCongTacs_Create">
-                                        <a href="/TbDoanCongTacs/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbDoanCongTacs_Statistics">
-                                        <a href="/TbDoanCongTacs/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
+                        <li class="sidebar-item has-sub" action_name="TbThanhPhanThamGiaDoanCongTacs_article">
+                            <a href="/TbThanhPhanThamGiaDoanCongTacs" class="sidebar-link">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Thành phần trạng thái tham gia</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbThanhPhanThamGiaDoanCongTacs_article">
+                                <li class="submenu-item" action_name="TbThanhPhanThamGiaDoanCongTacs_Index">
+                                    <a href="/TbThanhPhanThamGiaDoanCongTacs/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbThanhPhanThamGiaDoanCongTacs_Create">
+                                    <a href="/TbThanhPhanThamGiaDoanCongTacs/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbThanhPhanThamGiaDoanCongTacs_Statistics">
+                                    <a href="/TbThanhPhanThamGiaDoanCongTacs/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                            <li class="sidebar-item  has-sub " action_name="TbGvduocCuDiDaoTaos_article">
-                                <a href="/TbGvduocCuDiDaoTaos" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>GV được cử đi đào tạo</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbGvduocCuDiDaoTaos_article">
+                        <li class="sidebar-item has-sub" action_name="TbThoaThuanHopTacQuocTes_article">
+                            <a href="/TbThoaThuanHopTacQuocTes" class="sidebar-link">
+                                <i class="bi bi-globe"></i>
+                                <span>Thỏa thuận hợp tác quốc tế</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbThoaThuanHopTacQuocTes_article">
+                                <li class="submenu-item" action_name="TbThoaThuanHopTacQuocTes_Index">
+                                    <a href="/TbThoaThuanHopTacQuocTes/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbThoaThuanHopTacQuocTes_Create">
+                                    <a href="/TbThoaThuanHopTacQuocTes/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbThoaThuanHopTacQuocTes_Statistics">
+                                    <a href="/TbThoaThuanHopTacQuocTes/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                                    <li class="submenu-item " action_name="TbGvduocCuDiDaoTaos_Index">
-                                        <a href="/TbGvduocCuDiDaoTaos/" class="submenu-link">Index</a>
+                        <li class="sidebar-item has-sub" action_name="TbThongTinHopTacs_article">
+                            <a href="/TbThongTinHopTacs" class="sidebar-link">
+                                <i class="bi bi-info-circle"></i>
+                                <span>Thông tin hợp tác</span>
+                            </a>
+                            <ul class="submenu submenu-closed" action_name="TbThongTinHopTacs_article">
+                                <li class="submenu-item" action_name="TbThongTinHopTacs_Index">
+                                    <a href="/TbThongTinHopTacs/" class="submenu-link">
+                                        <i class="fas fa-home me-2"></i> <!-- Icon cho Index -->
+                                        <span>Index</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbThongTinHopTacs_Create">
+                                    <a href="/TbThongTinHopTacs/Create" class="submenu-link">
+                                        <i class="fas fa-plus me-2"></i> <!-- Icon cho Create -->
+                                        <span>Create</span>
+                                    </a>
+                                </li>
+                                <li class="submenu-item" action_name="TbThongTinHopTacs_Statistics">
+                                    <a href="/TbThongTinHopTacs/Statistics" class="submenu-link">
+                                        <i class="fas fa-chart-bar me-2"></i> <!-- Icon cho Statistics -->
+                                        <span>Statistics</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbGvduocCuDiDaoTaos_Create">
-                                        <a href="/TbGvduocCuDiDaoTaos/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbGvduocCuDiDaoTaos_Statistics">
-                                        <a href="/TbGvduocCuDiDaoTaos/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="sidebar-item  has-sub " action_name="TbHoiThaoHoiNghis_article">
-                                <a href="/TbHoiThaoHoiNghis" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Hội thảo hội nghị</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbHoiThaoHoiNghis_article">
-
-                                    <li class="submenu-item " action_name="PhanAnh_Index">
-                                        <a href="/TbHoiThaoHoiNghis/" class="submenu-link">Index</a>
-
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbHoiThaoHoiNghis_Create">
-                                        <a href="/TbHoiThaoHoiNghis/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbHoiThaoHoiNghis_Statistics">
-                                        <a href="/TbHoiThaoHoiNghis/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="sidebar-item  has-sub " action_name="TbLuuHocSinhSinhVienNns_article">
-                                <a href="/TbLuuHocSinhSinhVienNns" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Lưu học sinh sinh viên</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbLuuHocSinhSinhVienNns_article">
-
-                                    <li class="submenu-item " action_name="PhanAnh_Index">
-                                        <a href="/TbLuuHocSinhSinhVienNns/" class="submenu-link">Index</a>
-
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbLuuHocSinhSinhVienNns_Create">
-                                        <a href="/TbLuuHocSinhSinhVienNns/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbLuuHocSinhSinhVienNns_Statistics">
-                                        <a href="/TbLuuHocSinhSinhVienNns/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="sidebar-item  has-sub " action_name="TbThanhPhanThamGiaDoanCongTacs_article">
-                                <a href="/TbThanhPhanThamGiaDoanCongTacs" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Thành phần trạng thái tham gia</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbThanhPhanThamGiaDoanCongTacs_article">
-                                    <li class="submenu-item " action_name="TbThanhPhanThamGiaDoanCongTacs_Index">
-                                        <a href="/TbThanhPhanThamGiaDoanCongTacs/" class="submenu-link">Index</a>
-                                    </li>
-                                    <li class="submenu-item " action_name="TbThanhPhanThamGiaDoanCongTacs_Create">
-                                        <a href="/TbThanhPhanThamGiaDoanCongTacs/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbThanhPhanThamGiaDoanCongTacs_Statistics">
-                                        <a href="/TbThanhPhanThamGiaDoanCongTacs/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        
-                            <li class="sidebar-item  has-sub " action_name="TbThoaThuanHopTacQuocTes_article">
-                                <a href="/TbThoaThuanHopTacQuocTes" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Thỏa thuận hợp tác quốc tế</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbThoaThuanHopTacQuocTes_article">
-                                    <li class="submenu-item " action_name="TbThoaThuanHopTacQuocTes_Index">
-                                        <a href="/TbThoaThuanHopTacQuocTes/" class="submenu-link">Index</a>
-                                    </li>
-                                    <li class="submenu-item " action_name="TbThoaThuanHopTacQuocTes_Create">
-                                        <a href="/TbThoaThuanHopTacQuocTes/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbThoaThuanHopTacQuocTes_Statistics">
-                                        <a href="/TbThoaThuanHopTacQuocTes/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="sidebar-item  has-sub " action_name="TbThongTinHopTacs_article">
-                                <a href="/TbThongTinHopTacs" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Thông tin hợp tác</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbThongTinHopTacs_article">
-                                    <li class="submenu-item " action_name="TbThongTinHopTacs_Index">
-                                        <a href="/TbThongTinHopTacs/" class="submenu-link">Index</a>
-                                    </li>
-                                    <li class="submenu-item " action_name="TbThongTinHopTacs_Create">
-                                        <a href="/TbThongTinHopTacs/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbThongTinHopTacs_Statistics">
-                                        <a href="/TbThongTinHopTacs/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="sidebar-item  has-sub " action_name="TbToChucHopTacDoanhNghieps_article">
-                                <a href="/TbToChucHopTacDoanhNghieps" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Tổ chức hợp tác doanh nghiệp</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbToChucHopTacDoanhNghieps_article">
-                                    <li class="submenu-item " action_name="TbToChucHopTacDoanhNghieps_Index">
-                                        <a href="/TbToChucHopTacDoanhNghieps/" class="submenu-link">Index</a>
-                                    </li>
-                                    <li class="submenu-item " action_name="TbToChucHopTacDoanhNghieps_Create">
-                                        <a href="/TbToChucHopTacDoanhNghieps/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbToChucHopTacDoanhNghieps_Statistics">
-                                        <a href="/TbToChucHopTacDoanhNghieps/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="sidebar-item  has-sub " action_name="TbToChucHopTacQuocTes_article">
-                                <a href="/TbToChucHopTacQuocTes" class='sidebar-link'>
-                                    <i class="bi bi-grid-fill"></i>
-                                    <span>Tổ chức hợp tác quốc tế</span>
-                                </a>
-                                <ul class="submenu submenu-closed" action_name="TbToChucHopTacQuocTes_article">
-                                    <li class="submenu-item " action_name="TbToChucHopTacQuocTess_Index">
-                                        <a href="/TbToChucHopTacQuocTes/" class="submenu-link">Index</a>
-                                    </li>
-                                    <li class="submenu-item " action_name="TbToChucHopTacQuocTes_Create">
-                                        <a href="/TbToChucHopTacQuocTes/Create" class="submenu-link">Create</a>
-                                    </li>
-                                    <li class="submenu-item  " action_name="TbToChucHopTacQuocTes_Statistics">
-                                        <a href="/TbToChucHopTacQuocTes/Statistics" class="submenu-link">Statistics</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                        </ul>
                     </div>
                 </div>
             </div>
