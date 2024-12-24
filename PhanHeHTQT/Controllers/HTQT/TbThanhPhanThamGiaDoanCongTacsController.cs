@@ -50,8 +50,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbThanhPhanThamGiaDoanCongTacs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
@@ -81,6 +82,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdThanhPhanThamGiaDoanCongTac,IdDoanCongTac,IdCanBo,IdVaiTroThamGia")] TbThanhPhanThamGiaDoanCongTac tbThanhPhanThamGiaDoanCongTac)
         {
+
             if (await TbThanhPhanThamGiaDoanCongTacExists(tbThanhPhanThamGiaDoanCongTac.IdThanhPhanThamGiaDoanCongTac)) ModelState.AddModelError("IdThanhPhanThamGiaDoanCongTac", "Id này đã tồn tại!");
             if (ModelState.IsValid)
             {
@@ -153,8 +155,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbThanhPhanThamGiaDoanCongTacs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 

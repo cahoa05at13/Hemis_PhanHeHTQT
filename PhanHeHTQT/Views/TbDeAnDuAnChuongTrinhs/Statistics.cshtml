@@ -69,14 +69,33 @@
 
 }
 
-<h1>Statistics</h1>
+<h1>THỐNG KÊ</h1>
 
-<head>
-    <meta charset="utf-8">
     <title>Visualize Data Beautifully Using JS Charts</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    @section Heads{
     <style>
+        body {
+            background-image: url(https://upload.wikimedia.org/wikipedia/vi/8/85/Logo_hoc_vien_ANND.png); /* Đặt hình nền */
+            background-size: 150px 150px; /* Kích thước hình nền */
+            background-position: top right; /* Đặt vị trí hình nền phía trên */
+            background-repeat: no-repeat; /* Không lặp lại hình nền */
+            background-color: rgba(128, 148, 219, 1); /* Màu nền */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Phông chữ */
+            margin-bottom: 90px; /* Khoảng cách dưới cùng */
+            margin-top: 90px; /* Khoảng cách trên cùng */
+            padding: 0; /* Không có khoảng cách bên trong */
+            color: #fff; /* Màu chữ */
+        }
+
+        h1 {
+            color: #fff; /* Màu chữ của tiêu đề */
+            text-align: center; /* Căn giữa tiêu đề */
+            margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+            font-size: 2.5rem; /* Kích thước chữ lớn */
+            text-transform: uppercase; /* Chuyển chữ thành in hoa */
+            font-weight: bold; /* Chữ in đậm */
+        }
         /* Phong cách cho nhãn */
         label {
             font-family: 'Arial', sans-serif;
@@ -134,7 +153,9 @@
         }
 
     </style>
-</head>
+
+    }
+    
 <h1>Tùy chọn hiển thị biểu đồ</h1>
 
 <!-- Dropdown -->
@@ -150,7 +171,7 @@
 
 </select>
 <!-- Biểu đồ 1 -->
-<div id="chart1" class="chart-container" style=" margin-bottom:100px">
+<div id="chart1" class="chart-container" style=" margin-bottom:100px" color="black">
     <canvas id="myChart"></canvas>
 </div>
 
@@ -190,7 +211,7 @@
             datasets: [{
                 label: 'Tổng kinh phí',
                 data: @Html.Raw(data_)
-                            ,
+                                ,
                 //backgroundColor:'green',
                 backgroundColor: (function () {
                     const dataArray = @Html.Raw(data_); // Chèn dữ liệu JavaScript từ Razor

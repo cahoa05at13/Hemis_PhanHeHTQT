@@ -73,8 +73,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             try
             {
-                if (id == null)
+                if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
                 {
+                    ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                     return NotFound();
                 }
 
@@ -119,6 +120,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             try
             {
+                
                 if (await TbDeAnDuAnChuongTrinhExists(tbDeAnDuAnChuongTrinh.IdDeAnDuAnChuongTrinh)) ModelState.AddModelError("IdDeAnDuAnChuongTrinh", "ID này đã tồn tại!");
                 if (ModelState.IsValid)
                 {
@@ -138,8 +140,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbDeAnDuAnChuongTrinhs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
@@ -165,6 +168,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 {
                     return NotFound();
                 }
+
 
                 if (ModelState.IsValid)
                 {
@@ -279,7 +283,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                     model.ThoiGianHopTacTu = DateOnly.ParseExact(item[4], "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     model.ThoiGianHopTacDen = DateOnly.ParseExact(item[5], "dd/MM/yyyy", CultureInfo.InvariantCulture);
                     model.TongKinhPhi = double.Parse(item[6], CultureInfo.InvariantCulture);
-                    var model_NguonKinhPhi = dmNguonKinhPhis.FirstOrDefault(t => t.NguonKinhPhi == item[7]);
+                    /*var model_NguonKinhPhi = dmNguonKinhPhis.FirstOrDefault(t => t.NguonKinhPhi == item[7]);
                     if (model_NguonKinhPhi != null)
                     {
                         model.IdNguonKinhPhiDeAnDuAnChuongTrinh = model_NguonKinhPhi.IdNguonKinhPhi;  // Giả sử bạn có một trường Id trong DmNguonKinhPhi
@@ -288,8 +292,8 @@ namespace PhanHeHTQT.Controllers.HTQT
                     {
                         // Nếu không tìm thấy, bạn có thể xử lý theo cách khác (ví dụ: gán giá trị mặc định, log lỗi, v.v.)
                         model.IdNguonKinhPhiDeAnDuAnChuongTrinh = null; // hoặc gán một giá trị mặc định
-                    }
-
+                    }*/
+                    model.IdNguonKinhPhiDeAnDuAnChuongTrinh = ParseInt(item[7]);
                     // Thêm model vào danh sách
                     lst.Add(model);
                 }

@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PhanHeHTQT.API;
 using PhanHeHTQT.Models;
 using PhanHeHTQT.Models.DM;
+using System.Globalization; 
 
 namespace PhanHeHTQT.Controllers.HTQT
 {
@@ -28,6 +31,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             List<DmNguonKinhPhiCuaGvduocCuDiDaoTao> dmNguonKinhPhiCuaGvduocCuDiDaoTaos = await ApiServices_.GetAll<DmNguonKinhPhiCuaGvduocCuDiDaoTao>("/api/dm/NguonKinhPhiCuaGvduocCuDiDaoTao");
             List<DmQuocTich> dmQuocTiches = await ApiServices_.GetAll<DmQuocTich>("/api/dm/QuocTich");
             List<DmTinhTrangGiangVienDuocCuDiDaoTao> dmTinhTrangGiangVienDuocCuDiDaoTaos = await ApiServices_.GetAll<DmTinhTrangGiangVienDuocCuDiDaoTao>("/api/dm/TinhTrangGiangVienDuocCuDiDaoTao");
+            List<TbNguoi> tbNguois = await ApiServices_.GetAll<TbNguoi>("/api/Nguoi");
             tbGvduocCuDiDaoTaos.ForEach(item =>
             {
                 item.IdCanBoNavigation = tbCanBos.FirstOrDefault(x => x.IdCanBo == item.IdCanBo);
@@ -35,8 +39,24 @@ namespace PhanHeHTQT.Controllers.HTQT
                 item.IdNguonKinhPhiCuaGvNavigation = dmNguonKinhPhiCuaGvduocCuDiDaoTaos.FirstOrDefault(x => x.IdNguonKinhPhiCuaGvduocCuDiDaoTao == item.IdNguonKinhPhiCuaGv);
                 item.IdQuocGiaDenNavigation = dmQuocTiches.FirstOrDefault(x => x.IdQuocTich == item.IdQuocGiaDen);
                 item.IdTinhTrangGvduocCuDiDaoTaoNavigation = dmTinhTrangGiangVienDuocCuDiDaoTaos.FirstOrDefault(x => x.IdTinhTrangGiangVienDuocCuDiDaoTao == item.IdTinhTrangGvduocCuDiDaoTao);
+                item.IdCanBoNavigation.IdNguoiNavigation = tbNguois.FirstOrDefault(x => x.IdNguoi == item.IdCanBoNavigation.IdNguoi);
+
+
+
             });
             return tbGvduocCuDiDaoTaos;
+        }
+        private async Task<List<TbCanBo>> TbCanBos()
+        {
+            List<TbCanBo> tbcanbos = await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo");
+            List<TbNguoi> tbNguois = await ApiServices_.GetAll<TbNguoi>("/api/Nguoi");
+            tbcanbos.ForEach(item =>
+            {
+                item.IdNguoiNavigation = tbNguois.FirstOrDefault(x => x.IdNguoi == item.IdNguoi);
+
+            });
+
+            return tbcanbos;
         }
         // GET: TbGvduocCuDiDaoTaos
         public async Task<IActionResult> Index()
@@ -50,7 +70,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 return BadRequest();
             }
-            
+
         }
         public async Task<IActionResult> Statistics()
         {
@@ -89,7 +109,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 return BadRequest();
             }
-           
+
         }
 
         // GET: TbGvduocCuDiDaoTaos/Create
@@ -97,15 +117,16 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             try
             {
-                ViewData["IdCanBo"] = new SelectList(await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo"), "IdCanBo", "IdCanBo");
+                ViewData["IdCanBo"] = new SelectList(await TbCanBos(), "IdCanBo", "IdNguoiNavigation.name");
                 ViewData["IdHinhThucThamGiaGvduocCuDiDaoTao"] = new SelectList(await ApiServices_.GetAll<DmHinhThucThamGiaGvduocCuDiDaoTao>("/api/dm/HinhThucThamGiaGvduocCuDiDaoTao"), "IdHinhThucThamGiaGvduocCuDiDaoTao", "HinhThucThamGiaGvduocCuDiDaoTao");
                 ViewData["IdNguonKinhPhiCuaGv"] = new SelectList(await ApiServices_.GetAll<DmNguonKinhPhiCuaGvduocCuDiDaoTao>("/api/dm/NguonKinhPhiCuaGvduocCuDiDaoTao"), "IdNguonKinhPhiCuaGvduocCuDiDaoTao", "NguonKinhPhiCuaGvduocCuDiDaoTao");
                 ViewData["IdQuocGiaDen"] = new SelectList(await ApiServices_.GetAll<DmQuocTich>("/api/dm/QuocTich"), "IdQuocTich", "TenNuoc");
                 ViewData["IdTinhTrangGvduocCuDiDaoTao"] = new SelectList(await ApiServices_.GetAll<DmTinhTrangGiangVienDuocCuDiDaoTao>("/api/dm/TinhTrangGiangVienDuocCuDiDaoTao"), "IdTinhTrangGiangVienDuocCuDiDaoTao", "TinhTrangGiangVienDuocCuDiDaoTao");
                 return View();
-            } catch (Exception ex) 
-            { 
-                return BadRequest(); 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
             }
         }
 
@@ -122,7 +143,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 await ApiServices_.Create<TbGvduocCuDiDaoTao>("/api/htqt/GVDuocCuDiDaoTao", tbGvduocCuDiDaoTao);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCanBo"] = new SelectList(await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo"), "IdCanBo", "IdCanBo", tbGvduocCuDiDaoTao.IdCanBo);
+            ViewData["IdCanBo"] = new SelectList(await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo"), "IdCanBo", "IdNguoiNavigation.name", tbGvduocCuDiDaoTao.IdCanBo);
             ViewData["IdHinhThucThamGiaGvduocCuDiDaoTao"] = new SelectList(await ApiServices_.GetAll<DmHinhThucThamGiaGvduocCuDiDaoTao>("/api/dm/HinhThucThamGiaGvduocCuDiDaoTao"), "IdHinhThucThamGiaGvduocCuDiDaoTao", "HinhThucThamGiaGvduocCuDiDaoTao", tbGvduocCuDiDaoTao.IdHinhThucThamGiaGvduocCuDiDaoTao);
             ViewData["IdNguonKinhPhiCuaGv"] = new SelectList(await ApiServices_.GetAll<DmNguonKinhPhiCuaGvduocCuDiDaoTao>("/api/dm/NguonKinhPhiCuaGvduocCuDiDaoTao"), "IdNguonKinhPhiCuaGvduocCuDiDaoTao", "NguonKinhPhiCuaGvduocCuDiDaoTao", tbGvduocCuDiDaoTao.IdNguonKinhPhiCuaGv);
             ViewData["IdQuocGiaDen"] = new SelectList(await ApiServices_.GetAll<DmQuocTich>("/api/dm/QuocTich"), "IdQuocTich", "TenNuoc", tbGvduocCuDiDaoTao.IdQuocGiaDen);
@@ -138,12 +159,12 @@ namespace PhanHeHTQT.Controllers.HTQT
                 return NotFound();
             }
 
-            var tbGvduocCuDiDaoTao = await ApiServices_.GetId<TbGvduocCuDiDaoTao>("/api/htqt/GvduocCuDiDaoTao", id ?? 0);
+            var tbGvduocCuDiDaoTao = await ApiServices_.GetId<TbGvduocCuDiDaoTao>("/api/htqt/GVDuocCuDiDaoTao", id ?? 0);
             if (tbGvduocCuDiDaoTao == null)
             {
                 return NotFound();
             }
-            ViewData["IdCanBo"] = new SelectList(await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo"), "IdCanBo", "IdCanBo", tbGvduocCuDiDaoTao.IdCanBo);
+            ViewData["IdCanBo"] = new SelectList(await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo"), "IdCanBo", "IdNguoiNavigation.name", tbGvduocCuDiDaoTao.IdCanBo);
             ViewData["IdHinhThucThamGiaGvduocCuDiDaoTao"] = new SelectList(await ApiServices_.GetAll<DmHinhThucThamGiaGvduocCuDiDaoTao>("/api/dm/HinhThucThamGiaGvduocCuDiDaoTao"), "IdHinhThucThamGiaGvduocCuDiDaoTao", "HinhThucThamGiaGvduocCuDiDaoTao", tbGvduocCuDiDaoTao.IdHinhThucThamGiaGvduocCuDiDaoTao);
             ViewData["IdNguonKinhPhiCuaGv"] = new SelectList(await ApiServices_.GetAll<DmNguonKinhPhiCuaGvduocCuDiDaoTao>("/api/dm/NguonKinhPhiCuaGvduocCuDiDaoTao"), "IdNguonKinhPhiCuaGvduocCuDiDaoTao", "NguonKinhPhiCuaGvduocCuDiDaoTao", tbGvduocCuDiDaoTao.IdNguonKinhPhiCuaGv);
             ViewData["IdQuocGiaDen"] = new SelectList(await ApiServices_.GetAll<DmQuocTich>("/api/dm/QuocTich"), "IdQuocTich", "TenNuoc", tbGvduocCuDiDaoTao.IdQuocGiaDen);
@@ -167,11 +188,11 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 try
                 {
-                    await ApiServices_.Update<TbGvduocCuDiDaoTao>("/api/htqt/GvduocCuDiDaoTao", id, tbGvduocCuDiDaoTao);
+                    await ApiServices_.Update<TbGvduocCuDiDaoTao>("/api/htqt/GVDuocCuDiDaoTao", id, tbGvduocCuDiDaoTao);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if ( await TbGvduocCuDiDaoTaoExists(tbGvduocCuDiDaoTao.IdGvduocCuDiDaoTao) == false)
+                    if (await TbGvduocCuDiDaoTaoExists(tbGvduocCuDiDaoTao.IdGvduocCuDiDaoTao) == false)
                     {
                         return NotFound();
                     }
@@ -182,7 +203,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdCanBo"] = new SelectList(await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo"), "IdCanBo", "IdCanBo", tbGvduocCuDiDaoTao.IdCanBo);
+            ViewData["IdCanBo"] = new SelectList(await ApiServices_.GetAll<TbCanBo>("/api/cb/CanBo"), "IdCanBo", "IdNguoiNavigation.name", tbGvduocCuDiDaoTao.IdCanBo);
             ViewData["IdHinhThucThamGiaGvduocCuDiDaoTao"] = new SelectList(await ApiServices_.GetAll<DmHinhThucThamGiaGvduocCuDiDaoTao>("/api/dm/HinhThucThamGiaGvduocCuDiDaoTao"), "IdHinhThucThamGiaGvduocCuDiDaoTao", "HinhThucThamGiaGvduocCuDiDaoTao", tbGvduocCuDiDaoTao.IdHinhThucThamGiaGvduocCuDiDaoTao);
             ViewData["IdNguonKinhPhiCuaGv"] = new SelectList(await ApiServices_.GetAll<DmNguonKinhPhiCuaGvduocCuDiDaoTao>("/api/dm/NguonKinhPhiCuaGvduocCuDiDaoTao"), "IdNguonKinhPhiCuaGvduocCuDiDaoTao", "NguonKinhPhiCuaGvduocCuDiDaoTao", tbGvduocCuDiDaoTao.IdNguonKinhPhiCuaGv);
             ViewData["IdQuocGiaDen"] = new SelectList(await ApiServices_.GetAll<DmQuocTich>("/api/dm/QuocTich"), "IdQuocTich", "TenNuoc", tbGvduocCuDiDaoTao.IdQuocGiaDen);
@@ -213,7 +234,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await ApiServices_.Delete<TbGvduocCuDiDaoTao>("/api/htqt/GvduocCuDiDaoTao", id);
+            await ApiServices_.Delete<TbGvduocCuDiDaoTao>("/api/htqt/GVDuocCuDiDaoTao", id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -222,6 +243,77 @@ namespace PhanHeHTQT.Controllers.HTQT
             var tbGvduocCuDiDaoTaos = await ApiServices_.GetAll<TbGvduocCuDiDaoTao>("/api/htqt/GVDuocCuDiDaoTao");
             return tbGvduocCuDiDaoTaos.Any(e => e.IdGvduocCuDiDaoTao == id);
         }
+
+        public async Task<IActionResult> Receive(string json)
+        {
+            try
+            {
+                // Khai báo thông báo mặc định
+                var message = "Không phát hiện lỗi";
+                // Giải mã dữ liệu JSON từ client
+                List<List<string>> data = JsonConvert.DeserializeObject<List<List<string>>>(json);
+
+                List<TbGvduocCuDiDaoTao> lst = new List<TbGvduocCuDiDaoTao>();
+
+                // Khởi tạo Random để tạo ID ngẫu nhiên
+                Random rnd = new Random();
+                List<TbGvduocCuDiDaoTao> tbDoanCongTacs = await ApiServices_.GetAll<TbGvduocCuDiDaoTao>("/api/htqt/DoanCongTac");
+                // Duyệt qua từng dòng dữ liệu từ Excel
+                foreach (var item in data)
+                {
+                    TbGvduocCuDiDaoTao model = new TbGvduocCuDiDaoTao();
+
+                    // Tạo id ngẫu nhiên và kiểm tra xem id đã tồn tại chưa
+                    int id;
+                    do
+                    {
+                        id = rnd.Next(1, 100000); // Tạo id ngẫu nhiên
+                    } while (lst.Any(t => t.IdGvduocCuDiDaoTao == id) || tbDoanCongTacs.Any(t => t.IdGvduocCuDiDaoTao == id)); // Kiểm tra id có tồn tại không
+
+                    // Gán dữ liệu cho các thuộc tính của model
+                    model.IdGvduocCuDiDaoTao = id; // Gán ID
+                    model.TenCoSoGiaoDucThamGiaOnn = item[0];
+                    model.ThoiGianBatDau = DateOnly.ParseExact(item[1], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    model.ThoiGianKetThuc = DateOnly.ParseExact(item[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    model.IdCanBo = ParseInt(item[3]);
+                    model.IdHinhThucThamGiaGvduocCuDiDaoTao = ParseInt(item[4]);
+                    model.IdNguonKinhPhiCuaGv = ParseInt(item[5]);
+                    model.IdQuocGiaDen = ParseInt(item[6]);
+                    model.IdTinhTrangGvduocCuDiDaoTao = ParseInt(item[7]);
+                    // Thêm model vào danh sách
+                    lst.Add(model);
+                }
+
+                // Lưu danh sách vào cơ sở dữ liệu (giả sử có một phương thức tạo đối tượng trong DB)
+                foreach (var item in lst)
+                {
+                    await CreateTbGvduocCuDiDaoTao(item); // Giả sử có phương thức tạo dữ liệu vào DB
+                }
+
+                return Accepted(Json(new { msg = message }));
+            }
+            catch (Exception ex)
+            {
+                // Nếu có lỗi, trả về thông báo lỗi
+                return BadRequest(Json(new { msg = ex.Message }));
+            }
+        }
+
+        private async Task CreateTbGvduocCuDiDaoTao(TbGvduocCuDiDaoTao item)
+        {
+            await ApiServices_.Create<TbGvduocCuDiDaoTao>("/api/htqt/GVDuocCuDiDaoTao", item);
+        }
+
+        private int? ParseInt(string v)
+        {
+            if (int.TryParse(v, out int result)) // Nếu chuỗi có thể chuyển thành int
+            {
+                return result; // Trả về giá trị int
+            }
+            else
+            {
+                return null; // Nếu không thể chuyển thành int, trả về null
+            }
+        }
     }
 }
-

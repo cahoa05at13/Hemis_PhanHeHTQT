@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,7 @@ using Newtonsoft.Json;
 using PhanHeHTQT.API;
 using PhanHeHTQT.Models;
 using PhanHeHTQT.Models.DM;
+using System.Globalization;
 
 namespace PhanHeHTQT.Controllers.HTQT
 {
@@ -65,8 +68,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             try
             {
-                if (id == null)
+                if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
                 {
+                    ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                     return NotFound();
                 }
 
@@ -112,6 +116,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             try
             {
+
                 if (await TbDoanCongTacExists(tbDoanCongTac.IdDoanCongTac)) ModelState.AddModelError("IdDoanCongTac", "ID này đã tồn tại!");
                 if (ModelState.IsValid)
                 {
@@ -133,8 +138,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         public async Task<IActionResult> Edit(int? id)
         {
             try {
-                if (id == null)
+                if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
                 {
+                    ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                     return NotFound();
                 }
 
@@ -167,6 +173,7 @@ namespace PhanHeHTQT.Controllers.HTQT
                 {
                     return NotFound();
                 }
+
 
                 if (ModelState.IsValid)
                 {
@@ -238,24 +245,84 @@ namespace PhanHeHTQT.Controllers.HTQT
             }
         }
 
-        [HttpPost]
-        public IActionResult Excel(string json)
-        {
-            try
-            {
-                List<List<string>> data = JsonConvert.DeserializeObject<List<List<string>>>(json);
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-                return Accepted(Json(new { msg = JsonConvert.SerializeObject(data) }));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(Json(new { msg = "Loi ne ma" }));
-            }
-        }
         private async Task<bool> TbDoanCongTacExists(int id)
         {
             var tbDoanCongTacs = await ApiServices_.GetAll<TbDoanCongTac>("/api/htqt/DoanCongTac");
             return tbDoanCongTacs.Any(e => e.IdDoanCongTac == id);
+        }
+
+        public async Task<IActionResult> Receive(string json)
+        {
+            try
+            {
+                // Khai báo thông báo mặc định
+                var message = "Không phát hiện lỗi";
+                // Giải mã dữ liệu JSON từ client
+                List<List<string>> data = JsonConvert.DeserializeObject<List<List<string>>>(json);
+
+                List<TbDoanCongTac> lst = new List<TbDoanCongTac>();
+
+                // Khởi tạo Random để tạo ID ngẫu nhiên
+                Random rnd = new Random();
+                List<TbDoanCongTac> tbDoanCongTacs = await ApiServices_.GetAll<TbDoanCongTac>("/api/htqt/DoanCongTac");
+                // Duyệt qua từng dòng dữ liệu từ Excel
+                foreach (var item in data)
+                {
+                    TbDoanCongTac model = new TbDoanCongTac();
+
+                    // Tạo id ngẫu nhiên và kiểm tra xem id đã tồn tại chưa
+                    int id;
+                    do
+                    {
+                        id = rnd.Next(1, 100000); // Tạo id ngẫu nhiên
+                    } while (lst.Any(t => t.IdDoanCongTac == id) || tbDoanCongTacs.Any(t => t.IdDoanCongTac == id)); // Kiểm tra id có tồn tại không
+
+                    // Gán dữ liệu cho các thuộc tính của model
+                    model.IdDoanCongTac = id; // Gán ID
+                    model.MaDoanCongTac = item[0];
+                    model.TenDoanCongTac = item[1];
+                    model.SoQuyetDinh = item[2];
+                    model.NgayQuyetDinh = DateOnly.ParseExact(item[3], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    model.ThoiGianBatDau = DateOnly.ParseExact(item[4], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    model.ThoiGianketThuc = DateOnly.ParseExact(item[5], "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                    model.MucDichCongTac = item[7];
+                    model.KetQuaCongTac = item[8];
+                    model.IdPhanLoaiDoanRaDoanVao = ParseInt(item[8]);
+                    model.IdQuocGiaDoan = ParseInt(item[9]);
+                    // Thêm model vào danh sách
+                    lst.Add(model);
+                }
+
+                // Lưu danh sách vào cơ sở dữ liệu (giả sử có một phương thức tạo đối tượng trong DB)
+                foreach (var item in lst)
+                {
+                    await CreateTbDoanCongTac(item); // Giả sử có phương thức tạo dữ liệu vào DB
+                }
+
+                return Accepted(Json(new { msg = message }));
+            }
+            catch (Exception ex)
+            {
+                // Nếu có lỗi, trả về thông báo lỗi
+                return BadRequest(Json(new { msg = ex.Message }));
+            }
+        }
+
+        private async Task CreateTbDoanCongTac(TbDoanCongTac item)
+        {
+            await ApiServices_.Create<TbDoanCongTac>("/api/htqt/DoanCongTac", item);
+        }
+
+        private int? ParseInt(string v)
+        {
+            if (int.TryParse(v, out int result)) // Nếu chuỗi có thể chuyển thành int
+            {
+                return result; // Trả về giá trị int
+            }
+            else
+            {
+                return null; // Nếu không thể chuyển thành int, trả về null
+            }
         }
     }
 }

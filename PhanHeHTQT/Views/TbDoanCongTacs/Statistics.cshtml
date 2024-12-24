@@ -47,73 +47,73 @@
     dataJson1 = JsonConvert.SerializeObject(data1);
 }
 
-<h1>Statistics</h1>
+<h1>THỐNG KÊ</h1>
 
-<head>
     <meta charset="utf-8">
     <title>Visualize Data Beautifully Using JS Charts</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style>
-        /* Phong cách cho nhãn */
-        label {
-            font-family: 'Arial', sans-serif;
-            font-size: 16px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-            display: inline-block;
-        }
-
-        /* Phong cách cho dropdown */
-        #chartDropdown {
-            width: 100%;
-            max-width: 500px; /* Giới hạn chiều rộng */
-            padding: 12px 16px;
-            font-size: 16px;
-            font-family: 'Arial', sans-serif;
-            color: #333;
-            background-color: #f9f9f9;
-            border: 2px solid #ddd;
-            border-radius: 8px; /* Bo tròn góc */
-            outline: none;
-            appearance: none; /* Ẩn mũi tên mặc định trên một số trình duyệt */
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
-            transition: all 0.3s ease;
-        }
-
-            /* Hiệu ứng hover */
-            #chartDropdown:hover {
-                background-color: #fff;
-                border-color: #007BFF;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            }
-
-            /* Hiệu ứng khi focus */
-            #chartDropdown:focus {
-                border-color: #007BFF;
-                box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
-            }
-
-            /* Tùy chỉnh các tùy chọn trong dropdown */
-            #chartDropdown option {
-                padding: 10px;
-                font-size: 14px;
+@section Heads{
+        <style>
+            /* Phong cách cho nhãn */
+            label {
+                font-family: 'Arial', sans-serif;
+                font-size: 16px;
+                font-weight: bold;
                 color: #333;
+                margin-bottom: 8px;
+                display: inline-block;
             }
 
-        /* Hiệu ứng cho tiêu đề */
-        h1 {
-            font-family: 'Arial', sans-serif;
-            font-size: 24px;
-            color: #444;
-            margin-bottom: 20px;
-        }
+            /* Phong cách cho dropdown */
+            #chartDropdown {
+                width: 100%;
+                max-width: 500px; /* Giới hạn chiều rộng */
+                padding: 12px 16px;
+                font-size: 16px;
+                font-family: 'Arial', sans-serif;
+                color: #333;
+                background-color: #f9f9f9;
+                border: 2px solid #ddd;
+                border-radius: 8px; /* Bo tròn góc */
+                outline: none;
+                appearance: none; /* Ẩn mũi tên mặc định trên một số trình duyệt */
+                cursor: pointer;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng */
+                transition: all 0.3s ease;
+            }
 
-    </style>
-</head>
-<body>
+                /* Hiệu ứng hover */
+                #chartDropdown:hover {
+                    background-color: #fff;
+                    border-color: #007BFF;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                }
+
+                /* Hiệu ứng khi focus */
+                #chartDropdown:focus {
+                    border-color: #007BFF;
+                    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+                }
+
+                /* Tùy chỉnh các tùy chọn trong dropdown */
+                #chartDropdown option {
+                    padding: 10px;
+                    font-size: 14px;
+                    color: #333;
+                }
+
+            /* Hiệu ứng cho tiêu đề */
+            h1 {
+                font-family: 'Arial', sans-serif;
+                font-size: 24px;
+                color: #444;
+                margin-bottom: 20px;
+            }
+
+        </style>
+
+}
+
     <!-- Dropdown -->
     <label for="chartDropdown">Chọn biểu đồ để hiển thị:</label>
     <select id="chartDropdown" style="margin-bottom:100px">
@@ -422,6 +422,5 @@
         });
     </script>
 
-</body>
 
 

@@ -45,10 +45,12 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbHoiThaoHoiNghis/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
+
             var tbHoiThaoHoiNghis = await TbHoiThaoHoiNghis();
             var tbHoiThaoHoiNghi = tbHoiThaoHoiNghis.FirstOrDefault(m => m.IdHoiThaoHoiNghi == id);
 
@@ -74,6 +76,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdHoiThaoHoiNghi,MaHoiThaoHoiNghi,TenHoiThaoHoiNghi,CoQuanCoThamQuyenCapPhep,MucTieu,NoiDung,SoLuongDaiBieuThamDu,SoLuongDaiBieuQuocTeThamDu,ThoiGianToChuc,DiaDiemToChuc,IdNguonKinhPhiHoiThao,DonViChuTri")] TbHoiThaoHoiNghi tbHoiThaoHoiNghi)
         {
+
             if (await TbHoiThaoHoiNghiExists(tbHoiThaoHoiNghi.IdHoiThaoHoiNghi)) ModelState.AddModelError("IdHoiThaoHoiNghi", "ID này đã tồn tại!");
             if (ModelState.IsValid)
             {
@@ -87,8 +90,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbHoiThaoHoiNghis/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
@@ -112,6 +116,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 return NotFound();
             }
+
 
             if (ModelState.IsValid)
             {

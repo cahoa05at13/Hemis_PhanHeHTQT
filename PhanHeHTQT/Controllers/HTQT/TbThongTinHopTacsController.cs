@@ -44,8 +44,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbThongTinHopTacs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
@@ -74,6 +75,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdThongTinHopTac,IdToChucHopTac,ThoiGianHopTacTu,ThoiGianHopTacDen,TenThoaThuan,ThongTinLienHeDoiTac,MucTieu,DonViTrienKhai,IdHinhThucHopTac,SanPhamChinh")] TbThongTinHopTac tbThongTinHopTac)
         {
+
             if (ModelState.IsValid)
             {
                 await ApiServices_.Create<TbThongTinHopTac>("/api/htqt/ThongTinHopTac", tbThongTinHopTac);
@@ -87,8 +89,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbThongTinHopTacs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 

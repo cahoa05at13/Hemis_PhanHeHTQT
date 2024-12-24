@@ -25,11 +25,12 @@
     labelJson = JsonConvert.SerializeObject(label);
     dataJson = JsonConvert.SerializeObject(data);
 }
-<head>
-    <meta charset="utf-8">
+
+<h1>THỐNG KÊ</h1>
+<meta charset="utf-8">
     <title>Visualize Data Beautifully Using JS Charts</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+@section Heads{    
     <style>
         /* Phong cách cho nhãn */
         label {
@@ -88,8 +89,8 @@
         }
 
     </style>
-</head>
-<body>
+}
+
     <h1>Tùy chọn hiển thị biểu đồ</h1>
 
     <!-- Dropdown -->
@@ -260,4 +261,3 @@
                     }
                 });
     </script>
-</body>

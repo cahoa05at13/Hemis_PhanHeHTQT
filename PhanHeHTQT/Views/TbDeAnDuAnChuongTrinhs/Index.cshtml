@@ -4,127 +4,321 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<!-- Include Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table" id="views">
+<style>
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+        font-family: Arial, sans-serif;
+    }
+
+    h1, h3, h4 {
+        text-align: center;
+    }
+
+    body {
+        background-image: url(https://upload.wikimedia.org/wikipedia/vi/8/85/Logo_hoc_vien_ANND.png);
+        background-size: 150px 150px;
+        background-position: top right;
+        background-repeat: no-repeat;
+        background-color: rgba(128, 148, 219, 1);
+        margin-bottom: 90px;
+        margin-top: 90px;
+        color: #000;
+        font-family: Arial, sans-serif;
+    }
+
+    .scrolling-text-container {
+        width: 100%;
+        height: 150px;
+        overflow: hidden;
+        background-color: rgba(128, 148, 219, 0);
+        padding: 5px 0;
+        margin-top: 20px;
+        white-space: nowrap;
+        position: relative;
+    }
+
+    .scrolling-text {
+        display: inline-block;
+        color: #fff;
+        font-size: 24px;
+        font-weight: bold;
+        position: absolute;
+        left: 100%;
+        font-family: Arial, sans-serif;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: linear-gradient(145deg, #e2ebf5, #d8e1ef);
+        color: #000;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        border-radius: 30px;
+        overflow: hidden;
+        margin: 20px auto;
+    }
+
+        table thead {
+            background-color: #00263e;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        table tbody tr {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+            table tbody tr:hover {
+                transform: scale(1.02);
+                background-color: #cce7ff;
+            }
+
+        table td, table th {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        table thead th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        table thead th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+
+    #ntable {
+        border: 2px solid #00263e;
+        margin: 40px auto;
+        padding: 0;
+        background-color: white;
+    }
+        /* Màu chữ cho header */
+        #ntable thead th {
+            color: #ffffff; /* Màu trắng */
+        }
+        /* Màu chữ cho từng hàng */
+        #ntable tbody td, a, i {
+            color: black; /* Đổi thành màu mong muốn */
+        }
+
+            /* Màu chữ khi hover */
+            #ntable tbody td, a, i:hover {
+                color: black;
+            }
+    /* Đổi thành màu đỏ khi di chuột */
+
+    .snowflake {
+        position: absolute;
+        top: -10px; /* Bắt đầu rơi từ phía trên */
+        color: white;
+        font-size: 1em;
+        opacity: 0.8; /* Độ mờ của tuyết */
+        pointer-events: none; /* Không ảnh hưởng đến sự kiện chuột */
+    }
+    /* Adjusting button layout */
+    .btn-header {
+        background-color: rgba(0, 31, 63, 1);
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: Arial, sans-serif; /* Sử dụng font Arial cho nút */
+    }
+
+        .btn-header:hover {
+            background-color: rgba(0, 31, 63, 0.8);
+        }
+</style>
+
+<div class="scrolling-text-container">
+    <div class="scrolling-text">
+        <h1 font-size="40px">ĐỀ ÁN, DỰ ÁN CHƯƠNG TRÌNH</h1>
+        <h3 font-size="15px">HỢP TÁC QUỐC TẾ</h3>
+        <h4>Bạn đang có @Model.Count() đề án, dự án</h4>
+    </div>
+</div>
+
+<script>
+    // Hiệu ứng chữ cuộn
+    var scrollingText = document.querySelector('.scrolling-text');
+    var container = document.querySelector('.scrolling-text-container');
+
+    function startScrolling() {
+        scrollingText.style.transition = 'none';
+        scrollingText.style.left = '100%';
+        var textWidth = scrollingText.offsetWidth;
+        var containerWidth = container.offsetWidth;
+        var stopPosition = (containerWidth - textWidth) / 2;
+        setTimeout(function () {
+            scrollingText.style.transition = 'left 10s linear';
+            scrollingText.style.left = stopPosition + 'px';
+        }, 100);
+    }
+    window.onload = startScrolling;
+
+    // Hiệu ứng xuất hiện cho bảng
+    document.addEventListener("DOMContentLoaded", function () {
+        const table = document.querySelector("table");
+        table.style.opacity = "0";
+        table.style.transform = "translateY(50px)";
+        table.style.transition = "all 0.5s ease";
+
+        setTimeout(() => {
+            table.style.opacity = "1";
+            table.style.transform = "translateY(0)";
+        }, 300);
+    });
+    const snowflakes = [];
+    const snowflakeCount = 50; // Số lượng tuyết cần tạo
+    const createInterval = 100; // Tạo snowflake mới mỗi 100ms
+    const updateInterval = 20; // Tốc độ cập nhật vị trí
+
+    function createSnowflake() {
+        const snowflake = document.createElement('div');
+        snowflake.classList.add('snowflake');
+        snowflake.textContent = '❄'; // Ký tự tuyết
+        snowflake.style.left = Math.random() * window.innerWidth + 'px'; // Vị trí ngẫu nhiên
+        snowflake.style.fontSize = Math.random() * 10 + 30 + 'px'; // Kích thước ngẫu nhiên
+        snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // Thời gian rơi ngẫu nhiên
+        snowflake.style.animationDelay = Math.random() * 2 + 's'; // Thời gian trễ ngẫu nhiên
+        snowflake.style.opacity = Math.random(); // Độ mờ ngẫu nhiên
+        snowflake.style.position = 'absolute';
+        snowflake.style.top = '-10px'; // Bắt đầu từ phía trên
+        document.body.appendChild(snowflake);
+        snowflakes.push(snowflake);
+
+        // Xóa tuyết khi rơi xong
+        setTimeout(() => {
+            snowflake.remove();
+        }, 5000); // Thời gian phải trùng với animation-duration lớn nhất
+    }
+
+    function updateSnowflakes() {
+        for (let i = 0; i < snowflakes.length; i++) {
+            const snowflake = snowflakes[i];
+            const top = parseFloat(snowflake.style.top || -10);
+            if (top > window.innerHeight) {
+                snowflake.style.top = '-10px'; // Reset khi tuyết rơi xuống hết
+                snowflake.style.left = Math.random() * window.innerWidth + 'px'; // Vị trí mới
+            } else {
+                snowflake.style.top = top + 1 + 'px';
+            }
+        }
+    }
+
+    // Tạo tuyết và cập nhật vị trí tuyết liên tục
+    setInterval(createSnowflake, createInterval); // Tạo tuyết mới mỗi 100ms
+    setInterval(updateSnowflakes, updateInterval); // Cập nhật vị trí tuyết mỗi 20ms
+</script>
+
+<table class="table" id="ntable">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.MaDeAnDuAnChuongTrinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TenDeAnDuAnChuongTrinh)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoiDungTomTat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MucTieu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThoiGianHopTacTu)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThoiGianHopTacDen)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TongKinhPhi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdNguonKinhPhiDeAnDuAnChuongTrinhNavigation)
-            </th>
-            <th></th>
+            <th>STT</th>
+            <th>@Html.DisplayNameFor(model => model.MaDeAnDuAnChuongTrinh)</th>
+            <th>@Html.DisplayNameFor(model => model.TenDeAnDuAnChuongTrinh)</th>
+            <th>@Html.DisplayNameFor(model => model.NoiDungTomTat)</th>
+            <th>@Html.DisplayNameFor(model => model.MucTieu)</th>
+            <th>@Html.DisplayNameFor(model => model.ThoiGianHopTacTu)</th>
+            <th>@Html.DisplayNameFor(model => model.ThoiGianHopTacDen)</th>
+            <th>@Html.DisplayNameFor(model => model.TongKinhPhi)</th>
+            <th>@Html.DisplayNameFor(model => model.IdNguonKinhPhiDeAnDuAnChuongTrinhNavigation)</th>
+            <th width="150px">Chức năng</th>
         </tr>
     </thead>
+    @{
+        int stt = 1;
+    }
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDeAnDuAnChuongTrinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TenDeAnDuAnChuongTrinh)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoiDungTomTat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MucTieu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThoiGianHopTacTu)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThoiGianHopTacDen)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TongKinhPhi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdNguonKinhPhiDeAnDuAnChuongTrinhNavigation.NguonKinhPhiChoDeAn)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdDeAnDuAnChuongTrinh">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdDeAnDuAnChuongTrinh">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdDeAnDuAnChuongTrinh">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@stt</td>
+                <td>@Html.DisplayFor(modelItem => item.MaDeAnDuAnChuongTrinh)</td>
+                <td>@Html.DisplayFor(modelItem => item.TenDeAnDuAnChuongTrinh)</td>
+                <td>@Html.DisplayFor(modelItem => item.NoiDungTomTat)</td>
+                <td>@Html.DisplayFor(modelItem => item.MucTieu)</td>
+                <td>@Html.DisplayFor(modelItem => item.ThoiGianHopTacTu)</td>
+                <td>@Html.DisplayFor(modelItem => item.ThoiGianHopTacDen)</td>
+                <td>@Html.DisplayFor(modelItem => item.TongKinhPhi)</td>
+                <td>@Html.DisplayFor(modelItem => item.IdNguonKinhPhiDeAnDuAnChuongTrinhNavigation.NguonKinhPhiChoDeAn)</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = item.IdDeAnDuAnChuongTrinh })" class="icon-link">
+                        <i class="fas fa-edit" title="CHỈNH SỬA"></i>
+                    </a> |
+                    <a href="@Url.Action("Details", new { id = item.IdDeAnDuAnChuongTrinh })" class="icon-link">
+                        <i class="fas fa-info-circle" title="CHI TIẾT"></i>
+                    </a> |
+                    <a href="@Url.Action("Delete", new { id = item.IdDeAnDuAnChuongTrinh })" class="icon-link">
+                        <i class="fas fa-trash-alt" title="XÓA"></i>
+                    </a>
+                </td>
+            </tr>
+            stt++;
+        }
     </tbody>
 </table>
-
+<div style="position: fixed; top: 0; right: 0; " id="notify">
+</div>
 @section Scripts {
-    <script src="~/js/import_excel.js"></script>
-    <script src="~/js/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.1.8/b-3.1.2/b-colvis-3.1.2/b-html5-3.1.2/b-print-3.1.2/r-3.0.3/datatables.min.js"></script>
+    <script src="~/js/import_excel.js"></script> <!-- Tập lệnh xử lý nhập Excel -->
+    <script src="~/js/xlsx.full.min.js"></script> <!-- Thư viện xử lý tệp Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script> <!-- Hỗ trợ xuất PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script> <!-- Font hỗ trợ PDF -->
+    <script src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-2.1.8/b-3.1.2/b-colvis-3.1.2/b-html5-3.1.2/b-print-3.1.2/datatables.min.js"></script> <!-- Thư viện DataTables -->
     <script>
-                //Datatable trong datatable.net. Tìm hiểu thêm thông tin: https://datatables.net/manual/
-                var table = new DataTable("#views", {
-                    columnDefs: [
+        function notify(msg) {
+            document.getElementById("notify").innerHTML = `
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  ${msg}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                    `;
+        }
+        var table = new DataTable("#ntable", {
+            columnDefs: [
+                {
+                    orderable: false, //không cho phép sắp xếp
+                    targets: -1   // Áp dụng cho cột cuối cùng
+                }
+            ],
+            pageLength: 8, //số lượng mục hiển thị trên một trang
+            language: {
+                search: "Tìm kiếm",
+                lengthMenu: "Hiển thị _MENU_ mục",
+                info: "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                infoEmpty: "Không có dữ liệu để hiển thị",
+                infoFiltered: "(được lọc từ _MAX_ mục)",
+                loadingRecords: "Đang tải...",
+                zeroRecords: "Không tìm thấy kết quả phù hợp",
+                emptyTable: "Không có dữ liệu",
+            }, //Tùy chỉnh ngôn ngữ tiếng việt
+            createdRow: (row, data, index) => { },
+            layout: {
+                topStart: {
+                    buttons: [
                         {
-                            orderable: false,
-                            targets: -1
+                            className: 'btn btn-header',
+                            text: 'Thêm đề án, dự án',
+                            action: function (e, dt, node, config) {
+                                window.location.href = '@Url.Action("Create")';
+                            }
                         },
-                    ],
-                    language: {
-                        //Điều chỉnh phần hiển thị label của thanh tìm kiếm - Xem thêm thông tin: https://datatables.net/reference/option/language.search
-                            search: "",
-                            searchPlaceholder:"Tìm kiếm",
-                        //Điều chỉnh phần hiển thị thông tin của table - Xem thêm thông tin: https://datatables.net/reference/option/language.info
-                        info: "Tổng cộng _TOTAL_ bản ghi",
-                    },
-                    createdRow: (row, data, index) => {
-                    },
-                    layout: {//Layout: https://datatables.net/examples/layout/index.html
-                        topStart: {
-                            buttons: [//extension buttons: https://datatables.net/extensions/buttons/config
-                                {
-                                    className: 'btn btn-primary btn-create', //Thêm class cho button
-                                    text: 'Thêm Đoàn công tác',
-                                    action: function (e, dt, node, config) {//Hành động của button
-                                        window.location.href = '@Url.Action("Create")';
-                                }
-                            },
-
-                            {
-                                extend: "excel",
-                                className: 'btn btn-primary btn-excel', //Thêm class cho button
-                                text: 'Xuất excel',
-                                exportOptions: {
-                                    columns: function(idx, data, node) {
-                                        if (node.classList.contains("_nonorder")) return false;
-                                        return true;
-                                    },
-                                }
-                            },
-
                         {
-                            className: 'btn btn-primary btn-header',
+                            className: 'btn btn-header',
+                            extend: 'excel',
+                            text: 'Xuất Excel',
+                        },
+                        {
+                            className: 'btn btn-header',
                             text: 'Nhập Excel',
                             action: function (e, dt, node, config) {
                                 import_excel((json) => {
@@ -148,20 +342,21 @@
                                         },
                                         success: function (response) {
                                             // Code to execute if the request succeeds
-                                            console.log('Success:', response.value['msg']);
-                                            alert("Thêm dữ liệu thành công!");
+
+                                            notify(`Success: ${response.value['msg']}`);
                                         },
                                         error: function (xhr, status, error) {
                                             // Code to execute if the request fails
-                                            alert('Error:' + xhr.responseJSON.value['msg']);
+                                            notify(`Error: ${xhr.responseJSON.value['msg']}`);
+
                                         }
                                     });
                                 });
                             }
                         }
-                ]
+                    ]
+                }
             }
-        }
-    });
-</script>
+        });
+    </script>
 }

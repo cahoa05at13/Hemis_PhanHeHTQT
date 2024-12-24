@@ -22,7 +22,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         }
 
         private async Task<List<TbLuuHocSinhSinhVienNn>> TbLuuHocSinhSinhVienNns(){
-            List<TbLuuHocSinhSinhVienNn> tbLuuHocSinhSinhVienNns = await ApiServices_.GetAll<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNn");
+            List<TbLuuHocSinhSinhVienNn> tbLuuHocSinhSinhVienNns = await ApiServices_.GetAll<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNN");
             List<DmLoaiLuuHocSinh> dmLoaiLuuHocSinhs = await ApiServices_.GetAll<DmLoaiLuuHocSinh>("/api/dm/LoaiLuuHocSinh");
             List<DmNguonKinhPhiChoLuuHocSinh> dmNguonKinhPhiChoLuuHocSinhs = await ApiServices_.GetAll<DmNguonKinhPhiChoLuuHocSinh>("/api/dm/NguonKinhPhiChoLuuHocSinh");
             tbLuuHocSinhSinhVienNns.ForEach(item => { 
@@ -47,13 +47,14 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbLuuHocSinhSinhVienNns/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
             var tbLuuHocSinhSinhVienNns = await TbLuuHocSinhSinhVienNns();
-            var tbLuuHocSinhSinhVienNn = tbLuuHocSinhSinhVienNns.FirstOrDefault(m => m.IdNguonKinhPhiLuuHocSinh == id);
+            var tbLuuHocSinhSinhVienNn = tbLuuHocSinhSinhVienNns.FirstOrDefault(m => m.IdLuuHocSinhSinhVienNn == id);
             if (tbLuuHocSinhSinhVienNn == null)
             {
                 return NotFound();
@@ -77,10 +78,11 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdLuuHocSinhSinhVienNn,IdNguoiHoc,IdNguonKinhPhiLuuHocSinh,IdLoaiLuuHocSinh")] TbLuuHocSinhSinhVienNn tbLuuHocSinhSinhVienNn)
         {
+
             if (await TbLuuHocSinhSinhVienNnExists(tbLuuHocSinhSinhVienNn.IdLuuHocSinhSinhVienNn)) ModelState.AddModelError("IdLuuHocSinhSinhVienNn", "Id này đã tồn tại!");
             if (ModelState.IsValid)
             {
-                await ApiServices_.Create<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNn", tbLuuHocSinhSinhVienNn);
+                await ApiServices_.Create<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNN", tbLuuHocSinhSinhVienNn);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdLoaiLuuHocSinh"] = new SelectList(await ApiServices_.GetAll<DmLoaiLuuHocSinh>("/api/dm/LoaiLuuHocSinh"), "IdLoaiLuuHocSinh", "LoaiLuuHocSinh", tbLuuHocSinhSinhVienNn.IdLoaiLuuHocSinh);
@@ -91,12 +93,13 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbLuuHocSinhSinhVienNns/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
-            var tbLuuHocSinhSinhVienNn = await ApiServices_.GetId<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNn", id ?? 0);
+            var tbLuuHocSinhSinhVienNn = await ApiServices_.GetId<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNN", id ?? 0);
             if (tbLuuHocSinhSinhVienNn == null)
             {
                 return NotFound();
@@ -122,7 +125,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 try
                 {
-                    await ApiServices_.Update<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNn", id, tbLuuHocSinhSinhVienNn);    
+                    await ApiServices_.Update<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNN", id, tbLuuHocSinhSinhVienNn);    
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -165,7 +168,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await ApiServices_.Delete<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNn", id);
+            await ApiServices_.Delete<TbLuuHocSinhSinhVienNn>("/api/htqt/LuuHocSinhSinhVienNN", id);
             return RedirectToAction(nameof(Index));
         }
 

@@ -23,8 +23,8 @@ namespace PhanHeHTQT.Controllers.HTQT
         private async Task<List<TbToChucHopTacQuocTe>> TbToChucHopTacQuocTes()
         {
             List<TbToChucHopTacQuocTe> tbToChucHopTacQuocTes = await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe");
-            List<DmQuocTich> dmQuocTiches = await ApiServices_.GetAll<DmQuocTich>("/api/htqt/QuocTich");
-            List<DmHinhThucHopTac> dmHinhThucHopTacs = await ApiServices_.GetAll<DmHinhThucHopTac>("/api/htqt/HinhThucHopTac");
+            List<DmQuocTich> dmQuocTiches = await ApiServices_.GetAll<DmQuocTich>("/api/dm/QuocTich");
+            List<DmHinhThucHopTac> dmHinhThucHopTacs = await ApiServices_.GetAll<DmHinhThucHopTac>("/api/dm/HinhThucHopTac");
             tbToChucHopTacQuocTes.ForEach(item =>
             {
                 item.IdQuocGiaNavigation = dmQuocTiches.FirstOrDefault(x => x.IdQuocTich == item.IdQuocGia);
@@ -37,7 +37,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             try
             {
-                List<TbToChucHopTacQuocTe> getall = await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe");
+                List<TbToChucHopTacQuocTe> getall = await TbToChucHopTacQuocTes();
                 // Lấy data từ các table khác có liên quan (khóa ngoài) để hiển thị trên Index
                 return View(getall);
 
@@ -52,7 +52,7 @@ namespace PhanHeHTQT.Controllers.HTQT
         {
             try
             {
-                List<TbToChucHopTacQuocTe> getall = await ApiServices_.GetAll<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacQuocTe");
+                List<TbToChucHopTacQuocTe> getall = await TbToChucHopTacQuocTes();
                 // Lấy data từ các table khác có liên quan (khóa ngoài) để hiển thị trên Index
                 return View(getall);
 
@@ -67,10 +67,12 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbToChucHopTacQuocTes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
+
             var tbToChucHopTacQuocTes = await TbToChucHopTacQuocTes();
             var tbToChucHopTacQuocTe = tbToChucHopTacQuocTes.FirstOrDefault(m => m.IdToChucHopTacQuocTe == id);
             if (tbToChucHopTacQuocTe == null)
@@ -99,6 +101,8 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdToChucHopTacQuocTe,MaHopTac,TenToChuc,IdQuocGia,NoiDung,ThoiGianKyKet,KetQuaHopTac,LoaiToChuc")] TbToChucHopTacQuocTe tbToChucHopTacQuocTe)
         {
+            
+
             if (ModelState.IsValid)
             {
                 await ApiServices_.Create<TbToChucHopTacQuocTe>("/api/htqt/ToChucHopTacDoanhNghiep", tbToChucHopTacQuocTe);
@@ -112,8 +116,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbToChucHopTacQuocTes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
@@ -137,6 +142,8 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 return NotFound();
             }
+
+            
 
             if (ModelState.IsValid)
             {

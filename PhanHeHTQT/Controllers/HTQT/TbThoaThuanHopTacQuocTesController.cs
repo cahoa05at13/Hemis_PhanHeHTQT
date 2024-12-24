@@ -47,8 +47,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbThoaThuanHopTacQuocTes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
@@ -76,9 +77,10 @@ namespace PhanHeHTQT.Controllers.HTQT
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdThoaThuanHopTacQuocTe,MaThoaThuan,TenThoaThuan,NoiDungTomTat,TenToChuc,NgayKyKet,SoVanBanKyKet,IdQuocGia,NgayHetHan")] TbThoaThuanHopTacQuocTe tbThoaThuanHopTacQuocTe)
         {
+
             if (ModelState.IsValid)
             {
-                await ApiServices_.Create<TbThoaThuanHopTacQuocTe>("/api/htqt/TbThoaThuanHopTacQuocTe", tbThoaThuanHopTacQuocTe);
+                await ApiServices_.Create<TbThoaThuanHopTacQuocTe>("/api/htqt/ThoaThuanHopTacQuocTe", tbThoaThuanHopTacQuocTe);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdQuocGia"] = new SelectList(await ApiServices_.GetAll<DmQuocTich>("/api/dm/QuocTich"), "IdQuocTich", "TenNuoc", tbThoaThuanHopTacQuocTe.IdQuocGia);
@@ -88,8 +90,9 @@ namespace PhanHeHTQT.Controllers.HTQT
         // GET: TbThoaThuanHopTacQuocTes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == null || id < 0) //Kiểm tra ID null hoặc số âm
             {
+                ModelState.AddModelError("Id", "ID không được là số âm hoặc null.");
                 return NotFound();
             }
 
@@ -113,6 +116,7 @@ namespace PhanHeHTQT.Controllers.HTQT
             {
                 return NotFound();
             }
+
 
             if (ModelState.IsValid)
             {

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.Authorization;
+using Newtonsoft.Json;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
 namespace PhanHeHTQT.API
@@ -87,6 +88,8 @@ namespace PhanHeHTQT.API
             }
             else
             {
+
+                // throw new Exception("Lỗi mẹ nó rồi\n" + JsonConvert.SerializeObject(response));
                 // _notificationService.Notify(NotificationSeverity.Error, $"Có lỗi đã xảy ra", duration: -1);
             }
         }
